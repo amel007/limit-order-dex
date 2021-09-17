@@ -18,6 +18,8 @@ contract LimitOrder is ILimitOrder, IndexResolver {
     uint64 _price;
     uint128 _amount;
 
+    uint256 static _id;
+
     constructor(address addrOwner, TvmCell codeIndex, address addrPair, uint64 price, uint128 amount) public {
         optional(TvmCell) optSalt = tvm.codeSalt(tvm.code());
         require(optSalt.hasValue(), 101);
