@@ -12,21 +12,24 @@ contract IndexResolver {
         address addrRoot,
         address addrOwner,
         address addrPair,
+        uint8 directionPair,
         uint64 price
     ) public view returns (uint256 codeHashIndex) {
-        return tvm.hash(_buildIndexCode(addrRoot, addrOwner, addrPair, price));
+        return tvm.hash(_buildIndexCode(addrRoot, addrOwner, addrPair, directionPair, price));
     }
 
     function _buildIndexCode(
         address addrRoot,
         address addrOwner,
         address addrPair,
+        uint8 directionPair,
         uint64 price
     ) internal virtual view returns (TvmCell) {
         TvmBuilder salt;
         salt.store(addrRoot);
         salt.store(addrOwner);
         salt.store(addrPair);
+        salt.store(directionPair);
         salt.store(price);
         return tvm.setCodeSalt(_codeIndex, salt.toCell());
     }

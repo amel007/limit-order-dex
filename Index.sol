@@ -14,10 +14,10 @@ contract Index is IIndex {
     constructor(address owner, uint128 amount) public {
         optional(TvmCell) optSalt = tvm.codeSalt(tvm.code());
         require(optSalt.hasValue(), 101);
-        (address addrRoot, address addrOwner, address addrPair, uint64 price) = optSalt
+        (address addrRoot, address addrOwner, address addrPair, uint8 directionPair, uint64 price) = optSalt
             .get()
             .toSlice()
-            .decode(address, address, address, uint64);
+            .decode(address, address, address, uint8, uint64);
         require(msg.sender == _addrOrder);
         tvm.accept();
         _addrRoot = addrRoot;
