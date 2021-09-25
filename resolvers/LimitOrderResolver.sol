@@ -12,6 +12,15 @@ contract LimitOrderResolver {
         return tvm.hash(_buildOrderCode(address(this)));
     }
 
+    function resolveOrder(
+        uint256 id
+    ) public view returns (address addrOrder) {
+        TvmCell code = _buildOrderCode(address(this));
+        TvmCell state = _buildOrderState(code, id);
+        uint256 hashState = tvm.hash(state);
+        addrOrder = address.makeAddrStd(0, hashState);
+    }
+
     function _buildOrderCode(address addrRoot) internal virtual view returns (TvmCell) {
         TvmBuilder salt;
         salt.store(addrRoot);
